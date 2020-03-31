@@ -1,0 +1,73 @@
+CREATE DATABASE IF NOT EXISTS jmj_leiloes;
+
+CREATE TABLE empresa (
+  id serial,
+  razaoSocial varchar(64) NOT NULL,
+  cnpj varchar(32) NOT NULL,
+  logradouro varchar(64),
+  municipio varchar(64),
+  numero varchar(10),
+  complemento varchar(64),
+  bairro varchar(64),
+  cep varchar(16),
+  telefone varchar(32),
+  email varchar(254) NOT NULL,
+  site varchar(254),
+  usuario varchar(20) NOT NULL,
+  senha varchar(128),
+  createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT empresa_pk PRIMARY KEY (id),
+  CONSTRAINT empresa_cnpj_uk UNIQUE (cnpj),
+  CONSTRAINT empresa_usuario_uk UNIQUE (usuario)
+);
+
+CREATE TABLE leilao (
+  id serial,
+  codigo integer,
+  descricao varchar(60) NOT NULL,
+  vendedor integer NOT NULL,
+  inicioPrevisto timestamp NOT NULL,
+  createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT leilao_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE comprador (
+  empresa integer NOT NULL,
+  leilao integer NOT NULL,
+
+  CONSTRAINT empresa_comp_fk FOREIGN KEY (empresa) REFERENCES empresa(id),
+  CONSTRAINT leilao_comp_fk FOREIGN KEY (leilao) REFERENCES leilao(id),
+
+  CONSTRAINT comprador_pk PRIMARY KEY (empresa, leilao)
+);
+
+CREATE TABLE lote (
+  id serial,
+  numeroLote integer,
+  descricao varchar(60) NOT NULL,
+  quantidade numeric NOT NULL,
+  valorInicial numeric,
+  unidade varchar(128) NOT NULL,
+  leilao integer NOT NULL,
+  createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT leilao_lote_fk FOREIGN KEY (leilao) REFERENCES leilao(id),
+
+  CONSTRAINT lote_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE unidade (
+  id serial,
+  nome varchar(128) NOT NULL,
+  createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT unidade_pk PRIMARY KEY (id)
+);
+
+
