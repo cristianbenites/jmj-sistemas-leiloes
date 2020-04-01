@@ -6,6 +6,7 @@ const routes = express.Router();
 const UnidadeController = require('./api/unidadeController');
 const LoteController = require('./api/loteController');
 const LeilaoController = require('./api/leilaoController');
+const EmpresaController = require('./api/empresaController');
 
 routes.get('/', (req, res) => {
     res.json({name: 'It Works!'});
@@ -19,13 +20,13 @@ routes.delete('/unidades/:id', UnidadeController.delete);
 
 routes.get('/lotes', LoteController.index);
 routes.post('/lotes', LoteController.create);
-// routes.put('/lotes/:id', LoteController.update);
-// routes.delete('/lotes/:id', LoteController.delete);
+routes.put('/lotes/:id', LoteController.update);
+routes.delete('/lotes/:id', LoteController.delete);
 
-routes.get('/leiloes', LeilaoController.index);
-routes.post('/leiloes', LeilaoController.create);
-routes.put('/leiloes/:id', LeilaoController.update);
-routes.delete('/leiloes/:id', LeilaoController.delete);
+routes.get('/empresas', EmpresaController.index);
+routes.post('/empresas', EmpresaController.create);
+routes.put('/empresas/:id', EmpresaController.update);
+routes.delete('/empresas/:id', EmpresaController.delete);
 
 
 
