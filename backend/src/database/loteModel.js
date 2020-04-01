@@ -38,7 +38,13 @@ const Lote = connection.define('lotes', {
     
 });
 
-Leilao.hasMany(Lote, { foreignKey: 'leilao'});
-Unidade.hasMany(Lote, { foreignKey: 'unidade'});
+
+// Leilao.hasMany(Lote, {foreignKey: 'leilao', as: 'leiloesModel'})
+Lote.belongsTo(Leilao, {foreignKey: 'leilao', as: 'leilaoLote'})
+Lote.belongsTo(Unidade, {foreignKey: 'unidade', as: 'unidadeLote'})
+
+
+// Lote.sync({force: false});
+
 
 module.exports = Lote;
